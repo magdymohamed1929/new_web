@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import useScrollAnimation from "@/hooks/useAnimations/useScrollAnimation";
 import { LinkedinIcon, TwitterIcon, GithubIcon, MailIcon } from "lucide-react";
 
@@ -161,15 +162,18 @@ const TeamCard = ({ member, index }: TeamCardProps) => {
 };
 
 export const Team = () => {
+  const { t, isRTL } = useLanguage();
+  
   const titleAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
+    type: "rotateIn",
+    duration: 0.8,
+    delay: 0.1,
   });
   
   const descriptionAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
-    delay: 0.2,
+    type: "blur",
+    duration: 0.7,
+    delay: 0.3,
   });
 
   return (
@@ -183,7 +187,7 @@ export const Team = () => {
             variants={titleAnimation.variants}
             className="text-3xl md:text-4xl font-display font-bold mb-4"
           >
-            Meet Our <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Team</span>
+            {t('team.subtitle')} <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{t('team.title')}</span>
           </motion.h2>
           
           <motion.p
@@ -193,7 +197,7 @@ export const Team = () => {
             variants={descriptionAnimation.variants}
             className="text-muted-foreground max-w-2xl mx-auto"
           >
-            Our talented team of developers, designers and strategists are passionate about creating innovative digital solutions.
+            {t('team.description')}
           </motion.p>
         </div>
         

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import useScrollAnimation from "@/hooks/useAnimations/useScrollAnimation";
 import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 
@@ -164,6 +165,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 };
 
 export const Projects = () => {
+  const { t, isRTL } = useLanguage();
   const [activeTab, setActiveTab] = useState("All");
   
   const filteredProjects = activeTab === "All" 
@@ -171,14 +173,15 @@ export const Projects = () => {
     : projectsData.filter(project => project.category.includes(activeTab));
     
   const titleAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
+    type: "flipY",
+    duration: 0.8,
+    delay: 0.1,
   });
   
   const descriptionAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
-    delay: 0.2,
+    type: "elastic",
+    duration: 0.7,
+    delay: 0.3,
   });
 
   return (

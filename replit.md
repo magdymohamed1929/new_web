@@ -95,7 +95,10 @@ This is a full-stack TypeScript application built with Express.js backend and Re
 
 ```
 Changelog:
-- June 29, 2025. Initial setup
+- June 29, 2025. Initial setup - Migrated from Lovable to Replit
+- June 29, 2025. Added Arabic language translation support with RTL text direction
+- June 29, 2025. Enhanced scroll animations with advanced effects (zoomOut, wave, blur, elastic, flipX, etc.)
+- June 29, 2025. Implemented comprehensive bilingual portfolio website with language switcher
 ```
 
 ## User Preferences

@@ -7,6 +7,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import useScrollAnimation from "@/hooks/useAnimations/useScrollAnimation";
 import { Quote } from "lucide-react";
 
@@ -87,21 +88,24 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
 };
 
 export const Testimonials = () => {
+  const { t, isRTL } = useLanguage();
+  
   const titleAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
+    type: "zoomOut",
+    duration: 0.8,
+    delay: 0.1,
   });
   
   const descriptionAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
-    delay: 0.2,
+    type: "wave",
+    duration: 0.7,
+    delay: 0.3,
   });
   
   const carouselAnimation = useScrollAnimation({
-    type: "fadeIn",
-    duration: 0.8,
-    delay: 0.3,
+    type: "blur",
+    duration: 0.9,
+    delay: 0.5,
   });
 
   return (

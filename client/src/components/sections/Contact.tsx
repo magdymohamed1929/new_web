@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import useScrollAnimation from "@/hooks/useAnimations/useScrollAnimation";
 import { Mail, MapPin, Phone, CheckCircle, Loader2 } from "lucide-react";
 
@@ -27,28 +28,30 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export const Contact = () => {
+  const { t, isRTL } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   
   const titleAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
+    type: "flipX",
+    duration: 0.8,
+    delay: 0.1,
   });
   
   const descriptionAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
-    delay: 0.2,
-  });
-  
-  const formAnimation = useScrollAnimation({
-    type: "fadeIn",
-    duration: 0.8,
+    type: "elastic",
+    duration: 0.7,
     delay: 0.3,
   });
   
+  const formAnimation = useScrollAnimation({
+    type: "blur",
+    duration: 0.9,
+    delay: 0.5,
+  });
+  
   const infoAnimation = useScrollAnimation({
-    type: "slideLeft",
+    type: isRTL ? "slideRight" : "slideLeft",
     duration: 0.8,
     delay: 0.4,
   });
@@ -89,7 +92,7 @@ export const Contact = () => {
             variants={titleAnimation.variants}
             className="text-3xl md:text-4xl font-display font-bold mb-4"
           >
-            Get In <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Touch</span>
+            {t('contact.subtitle')} <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{t('contact.title')}</span>
           </motion.h2>
           
           <motion.p
@@ -99,7 +102,7 @@ export const Contact = () => {
             variants={descriptionAnimation.variants}
             className="text-muted-foreground max-w-2xl mx-auto"
           >
-            Have a project in mind or want to learn more about our services? We'd love to hear from you!
+            {t('contact.description')}
           </motion.p>
         </div>
         

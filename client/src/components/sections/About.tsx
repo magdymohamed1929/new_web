@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import useScrollAnimation from "@/hooks/useAnimations/useScrollAnimation";
 import { CheckCircle, Zap, Shield, Globe, Users, Award } from "lucide-react";
 
@@ -64,25 +65,28 @@ const ValueCard = ({ icon, title, description, delay = 0 }: ValueCardProps) => {
 };
 
 export const About = () => {
+  const { t, isRTL } = useLanguage();
+  
   const titleAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
+    type: "bounceIn",
+    duration: 0.8,
+    delay: 0.1,
   });
   
   const descriptionAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
-    delay: 0.2,
+    type: "wave",
+    duration: 0.7,
+    delay: 0.3,
   });
   
   const imageAnimation = useScrollAnimation({
-    type: "slideRight",
+    type: isRTL ? "slideLeft" : "slideRight",
     duration: 0.8,
     delay: 0.3,
   });
   
   const contentAnimation = useScrollAnimation({
-    type: "slideLeft",
+    type: isRTL ? "slideRight" : "slideLeft",
     duration: 0.8,
     delay: 0.3,
   });
@@ -135,7 +139,7 @@ export const About = () => {
             variants={titleAnimation.variants}
             className="text-3xl md:text-4xl font-display font-bold mb-4"
           >
-            About <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Us</span>
+            {t('about.subtitle')} <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{t('about.title')}</span>
           </motion.h2>
           
           <motion.p
@@ -145,7 +149,7 @@ export const About = () => {
             variants={descriptionAnimation.variants}
             className="text-muted-foreground max-w-2xl mx-auto"
           >
-            We're a team of passionate developers and designers dedicated to crafting exceptional digital experiences.
+            {t('about.description')}
           </motion.p>
         </div>
 
