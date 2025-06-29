@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Code, Smartphone, Palette, Database, ShoppingCart, Layers } from "lucide-react";
+import { ChevronRight, Code, Smartphone, Palette, TrendingUp } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import useScrollAnimation from "@/hooks/useAnimations/useScrollAnimation";
 import { motion } from "framer-motion";
 
@@ -99,47 +100,40 @@ const getFeaturesList = (service: string): string[] => {
 };
 
 export const Services = () => {
+  const { t, isRTL } = useLanguage();
+  
   const titleAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
+    type: "bounceIn",
+    duration: 0.8,
+    delay: 0.1,
   });
   
   const descriptionAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.6,
-    delay: 0.2,
+    type: "wave",
+    duration: 0.7,
+    delay: 0.3,
   });
 
   const services = [
     { 
-      title: "Web Development", 
-      description: "Custom, responsive websites and web applications built with modern technologies.",
+      titleKey: "services.webDev.title", 
+      descriptionKey: "services.webDev.description",
       icon: <Code className="h-6 w-6" />,
     },
     { 
-      title: "Mobile Apps", 
-      description: "Native and cross-platform mobile applications for iOS and Android platforms.",
+      titleKey: "services.mobileDev.title", 
+      descriptionKey: "services.mobileDev.description",
       icon: <Smartphone className="h-6 w-6" />,
     },
     { 
-      title: "UI/UX Design", 
-      description: "User-centered design process focused on creating intuitive and engaging experiences.",
+      titleKey: "services.uiux.title", 
+      descriptionKey: "services.uiux.description",
       icon: <Palette className="h-6 w-6" />,
     },
     { 
-      title: "Backend Development", 
-      description: "Robust server-side solutions with scalable architecture and APIs.",
-      icon: <Database className="h-6 w-6" />,
-    },
-    { 
-      title: "E-commerce", 
-      description: "Custom online stores optimized for conversions and exceptional shopping experiences.",
-      icon: <ShoppingCart className="h-6 w-6" />,
-    },
-    { 
-      title: "Flutter Development", 
-      description: "Beautiful, natively compiled applications from a single codebase.",
-      icon: <Layers className="h-6 w-6" />,
+      titleKey: "services.consulting.title", 
+      descriptionKey: "services.consulting.description",
+      icon: <Code className="h-6 w-6" />,
     },
   ];
 
@@ -154,7 +148,7 @@ export const Services = () => {
             variants={titleAnimation.variants}
             className="text-3xl md:text-4xl font-display font-bold mb-4"
           >
-            Our <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Services</span>
+            {t('services.subtitle')} <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{t('services.title')}</span>
           </motion.h2>
           
           <motion.p
@@ -164,7 +158,7 @@ export const Services = () => {
             variants={descriptionAnimation.variants}
             className="text-muted-foreground max-w-2xl mx-auto"
           >
-            We offer a comprehensive range of software development services to bring your ideas to life with premium quality and attention to detail.
+            {t('services.description')}
           </motion.p>
         </div>
 
@@ -172,8 +166,8 @@ export const Services = () => {
           {services.map((service, index) => (
             <ServiceCard
               key={index}
-              title={service.title}
-              description={service.description}
+              title={t(service.titleKey)}
+              description={t(service.descriptionKey)}
               icon={service.icon}
               delay={index * 0.1}
             />

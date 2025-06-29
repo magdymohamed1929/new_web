@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Sheet,
   SheetContent,
@@ -9,22 +11,23 @@ import {
 import { Sun, Moon, Menu, X, ChevronRight } from "lucide-react";
 
 interface NavItem {
-  label: string;
+  key: string;
   href: string;
   isButton?: boolean;
 }
 
 const navItems: NavItem[] = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Team", href: "#team" },
-  { label: "Contact", href: "#contact", isButton: true },
+  { key: "nav.home", href: "#home" },
+  { key: "nav.services", href: "#services" },
+  { key: "nav.projects", href: "#projects" },
+  { key: "nav.about", href: "#about" },
+  { key: "nav.team", href: "#team" },
+  { key: "nav.contact", href: "#contact", isButton: true },
 ];
 
 export const Header = () => {
   const { theme, setTheme } = useTheme();
+  const { t, isRTL } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -71,24 +74,24 @@ export const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1">
+        <nav className={`hidden md:flex items-center ${isRTL ? 'space-x-reverse space-x-1' : 'space-x-1'}`}>
           {navItems.map((item) =>
             item.isButton ? (
               <Button
-                key={item.label}
+                key={item.key}
                 asChild
                 className="ml-2 bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity animate-in fade-in slide-in-from-right"
                 variant="default"
               >
-                <a href={item.href}>{item.label}</a>
+                <a href={item.href}>{t(item.key)}</a>
               </Button>
             ) : (
               <a
-                key={item.label}
+                key={item.key}
                 href={item.href}
                 className="px-4 py-2 text-sm font-medium hover:text-primary transition-colors relative group"
               >
-                {item.label}
+                {t(item.key)}
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left" />
               </a>
             )
@@ -103,10 +106,13 @@ export const Header = () => {
           >
             {theme === 'dark' ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
           </Button>
+          
+          <LanguageSwitcher />
         </nav>
 
         {/* Mobile Menu Button */}
-        <div className="flex md:hidden items-center space-x-2">
+        <div className={`flex md:hidden items-center ${isRTL ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
+          <LanguageSwitcher />
           <Button
             variant="ghost"
             size="icon"
@@ -127,7 +133,7 @@ export const Header = () => {
                 <div className="flex flex-col gap-6 mt-8">
                   {navItems.map((item, i) => (
                     <a
-                      key={item.label}
+                      key={item.key}
                       href={item.href}
                       className="flex items-center justify-between group pr-6 text-lg font-medium"
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -135,8 +141,8 @@ export const Header = () => {
                         animationDelay: `${i * 0.05 + 0.1}s`,
                       }}
                     >
-                      <span className="animate-in slide-in-from-right duration-300">{item.label}</span>
-                      <ChevronRight className="h-5 w-5 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                      <span className="animate-in slide-in-from-right duration-300">{t(item.key)}</span>
+                      <ChevronRight className={`h-5 w-5 opacity-50 group-hover:opacity-100 transition-all ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
                     </a>
                   ))}
                 </div>
@@ -146,7 +152,7 @@ export const Header = () => {
                     className="w-full bg-gradient-to-r from-primary to-accent"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Get Started
+                    {t('nav.getStarted')}
                   </Button>
                 </div>
               </div>

@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { useMouseMove } from "@/hooks/useAnimations/useMouseMove";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import useScrollAnimation from "@/hooks/useAnimations/useScrollAnimation";
 
 export const Hero = () => {
+  const { t, isRTL } = useLanguage();
   const { position } = useMouseMove({ sensitivity: 0.02 });
   const heroRef = useRef<HTMLDivElement>(null);
   
@@ -21,22 +23,23 @@ export const Hero = () => {
     updateGradientPosition();
   }, [position]);
   
-  // Text animations
+  // Enhanced text animations
   const headingAnimation = useScrollAnimation({
-    type: "fadeIn",
-    duration: 0.8,
+    type: "blur",
+    duration: 1.2,
+    delay: 0.2,
   });
   
   const subtitleAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.7,
-    delay: 0.3,
+    type: "wave",
+    duration: 1.0,
+    delay: 0.5,
   });
   
   const buttonsAnimation = useScrollAnimation({
-    type: "slideUp",
-    duration: 0.7,
-    delay: 0.5,
+    type: "elastic",
+    duration: 0.8,
+    delay: 0.8,
   });
 
   return (
@@ -68,7 +71,7 @@ export const Hero = () => {
       />
       
       <div className="container mx-auto px-4 z-10 pt-10">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className={`max-w-4xl mx-auto text-center ${isRTL ? 'text-right' : 'text-left'} md:text-center`}>
           <motion.h1
             ref={headingAnimation.ref}
             animate={headingAnimation.controls}
@@ -76,9 +79,9 @@ export const Hero = () => {
             variants={headingAnimation.variants}
             className="text-4xl md:text-5xl lg:text-7xl font-display font-bold leading-tight mb-6"
           >
-            Transforming Ideas Into
+            {t('hero.title')}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary block">
-              Digital Excellence
+              {t('hero.subtitle')} {t('hero.highlight')}
             </span>
           </motion.h1>
           
@@ -89,8 +92,7 @@ export const Hero = () => {
             variants={subtitleAnimation.variants}
             className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
           >
-            Full-stack development services delivering premium web, mobile, and software solutions
-            tailored for your business growth and success.
+            {t('hero.description')}
           </motion.p>
           
           <motion.div
@@ -98,20 +100,20 @@ export const Hero = () => {
             animate={buttonsAnimation.controls}
             initial="hidden"
             variants={buttonsAnimation.variants}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}
           >
             <Button
               size="lg"
               className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity text-white"
             >
-              Explore Services
+              {t('hero.cta.primary')}
             </Button>
             <Button 
               size="lg"
               variant="outline"
               className="border-primary text-primary hover:bg-primary/10"
             >
-              View Our Work
+              {t('hero.cta.secondary')}
             </Button>
           </motion.div>
         </div>
